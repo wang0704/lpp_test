@@ -9,12 +9,10 @@ an "AS IS" BASIS, WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express o
 See the License for the specific language governing permissions and limitations under the License.
 """
 
-# Create your views here.
+from django.conf.urls import patterns
 
-from django.shortcuts import render
-
-
-# def hello(request):
-#     context = {}
-#     context['hello'] = 'Hello World!'
-#     return render(request, 'base.html', context)
+urlpatterns = patterns(
+    'lpp_test.views',
+    # 定义URL
+    (r'^$', 'hello'),
+)
