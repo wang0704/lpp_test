@@ -11,6 +11,8 @@ See the License for the specific language governing permissions and limitations 
 
 from django.conf.urls import patterns
 
+from lpp_test import views
+
 urlpatterns = patterns(
     'lpp_test.views',
     # 定义URL
