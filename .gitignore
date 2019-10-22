@@ -6,3 +6,4 @@ result/*
 *.xlsx
 venv/*
 utils/user_defining_function.*
+*.xml
