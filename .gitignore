@@ -1,0 +1,8 @@
+IAAS_*.*
+*.pyc
+.idea/*
+IAAS_*/*
+result/*
+*.xlsx
+venv/*
+utils/user_defining_function.*
