@@ -1,3 +1,130 @@
-<h1>hello</h1>
-<h3>${ ok }</h3>
-<h4>5</h4>
+<%inherit file="/base.html"/>
+<%block name="content">
+<link href="https://magicbox.bk.tencent.com/static_api/v3/assets/bootstrap-3.3.4/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://magicbox.bk.tencent.com/static_api/v3/bk/css/bk.css" rel="stylesheet">
+<script src="https://magicbox.bk.tencent.com/static_api/v3/assets/js/jquery-1.10.2.min.js"></script>
+
+<div class="panel panel-default table7_demo king-table7-demo3">
+    <div class="panel-heading">
+        模板列表
+    </div>
+    <div class="panel-body">
+        <div class="king-wrapper clearfix">
+            <form class="form-inline king-search-form king-no-bg pull-left">
+
+                <div class="form-group">
+                    <div class="input-group king-input-group">
+                        <input type="text" class="form-control pl30 king-form-control" placeholder="请输入关键字">
+                        <span class="glyphicon glyphicon-search form-control-feedback king-form-control-feedback"></span>
+                    </div>
+                </div>
+
+            </form>
+            <button class="king-btn king-btn-new pull-right" data-toggle="modal" data-target="#newModel">
+                    新建模板
+                </button>
+        </div>
+    </div>
+    <div>
+        <table class="table table-hover mb0">
+            <thead>
+                <tr class="active">
+                    <th style="min-width:200px">主机IP</th>
+                    <th style="min-width:200px">主机名称</th>
+                    <th style="min-width:200px">所属业务</th>
+                    <th style="min-width:200px">云区域</th>
+                    <th style="min-width:200px">操作系统类型</th>
+                    <th style="min-width:200px">操作</th>
+                </tr>
+            </thead>
+            <tbody id="datas">
+                % for host in hosts:
+                <tr style="display: table-row; opacity: 1;">
+                    <td name="ip">${host.ip}</td>
+                    <td name="name">${host.name}</td>
+                    <td name="business">${host.business}</td>
+                    <td name="area">${host.area}</td>
+                    <td name="op_system">${host.op_system}</td>
+                    <td>
+                        <a>查看性能</a>
+                        <a name="delete">删除</a>
+                    </td>
+                </tr>
+                % endfor
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="5">
+                        <div class="pull-right king-page-box">
+                            <p class="pull-left mt15 mr15">
+                                共<span id="total">${count}</span>条记录，当前第<span id="cur_page">${page_now}</span>/<span id="total_page">${page_all}</span>页
+                            </p>
+
+                            <ul class="pagination pagination-sm pull-left mt10">
+                                <li class="disabled">
+                                    <a href="javascript:;" aria-label="Previous">
+                                        <span aria-hidden="true">«</span>
+                                    </a>
+                                </li>
+                                % for i in range(page_all):
+                                    % if i == (page_now - 1):
+                                        <li class="active"><a href="${SITE_URL}lpp_test/?page_num=${i+1}">${i+1}</a></li>
+                                    % else:
+                                        <li><a href="${SITE_URL}lpp_test/?page_num=${i+1}">${i+1}</a></li>
+                                    % endif
+                                % endfor
+                                <li>
+                                    <a href="javascript:;" aria-label="Next">
+                                        <span aria-hidden="true">»</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+</div>
+<div class="modal fade" id="newModel" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">添加主机</h4>
+            </div>
+            <div class="form-group">
+                <label for="inputSafe">地区：</label>
+                <select class="form-control" id="addHost">
+                </select>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+                <button type="button" class="btn btn-primary">提交更改</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal -->
+</div>
+<script type="text/javascript">
+    $.ready(
+        $.get("/lpp_test/search_host", {}, function (data, status) {
+            for(i = 0;i<data.length; i++){
+                var option = "<option value="+data[i].ip+">"+data[i].ip+"</option>";
+                $("#addHost").append(option);
+            }
+        })
+    );
+    $("#datas td a[name='delete']").click(function () {
+        var $ip = $(this).parents('tr').find("td[name='ip']").text()
+        $.ajax({
+            url:"/lpp_test/delete_host",
+            dataType:"json",
+            data:{"ip":$ip},
+            type:"POST",
+            success:function(res){
+                console.log(res)
+            },
+        })
+    })
+</script>
+</%block>

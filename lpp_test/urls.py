@@ -17,4 +17,11 @@ urlpatterns = patterns(
     'lpp_test.views',
     # 定义URL
     (r'^$', 'hello'),
+    (r'^test$', 'test'),
+    (r'^init_business$', 'init_business'),
+    (r'^init_host$', 'init_host'),
+    (r'^create_business$', 'create_business'),
+    (r'^delete_business$', 'delete_business'),
+    (r'^search_host$', 'search_host'),
+    (r'^delete_host', 'delete_host')
 )
