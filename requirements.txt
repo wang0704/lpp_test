@@ -15,7 +15,7 @@ httplib2==0.9.1
 ipython==5.8.0
 ipython-genutils==0.2.0
 kombu==3.0.37
-Mako==1.0.4
+Mako==1.2.2
 MarkupSafe==0.23
 meld3==2.0.0
 pathlib2==2.3.5
